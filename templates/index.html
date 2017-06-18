@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect to remote system</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form class="form-signin" method="POST">
+            <h2 class="form-signin-heading" style="text-align: center">Enter your remote system's credentials</h2><br>
+            <input type="text" id="ip" name="ip" class="form-control" placeholder="IP Address" required>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <input type="submit" class="btn btn-lg btn-primary btn-block">
+        </form>
+
+        {% if users|length > 0 %}
+            <table class="table table-striped table-bordered table-hover model-list">
+                <thead class="column-header col-name">
+                    <tr>
+                        <th class="column-header col-name">User</th>
+                        <th class="column-header col-name">Root Access</th>
+                        <th class="column-header col-name">Interactive Shell</th>
+                    </tr>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user }}</td>
+                            <td>
+                                {% if user in with_root_access %}
+                                    <span style="color: green;"><b>&#x2713;</b></span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user in with_interactive_shell %}
+                                    <span style="color: green;"><b>&#x2713;</b></span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </thead>
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
