@@ -5,7 +5,6 @@ from flask import (
     flash,
 )
 import paramiko
-import socket
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hjvasvayqu13w1rggrdw'
@@ -26,7 +25,7 @@ def index():
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
             ssh.connect(hostname=remote_ip, username=username, password=password)
-        except socket.error, err:
+        except Exception, err:
             flash(str(err), category='error')
             return render_template('index.html')
 
